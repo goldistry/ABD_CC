@@ -1,0 +1,43 @@
+# Kernel & Python
+*.pyc
+__pycache__/
+
+# VS Code (termasuk file checkpoint notebook)
+.vscode/
+.ipynb_checkpoints/
+
+# Abaikan environment (jika pakai)
+.venv/
+venv/
+env/
+
+# -------------------------------------------------------------------
+# Data & Output (JANGAN push data mentah/hasil ke Git)
+# -------------------------------------------------------------------
+
+# 1. Abaikan file gabungan SPESIFIK yang besar
+dataset/train_combined.csv
+dataset/transactions_combined.csv
+dataset/user_logs_combined.csv
+
+# 2. Abaikan folder hasil proses ETL dari (generate_file_combined.ipynb)
+# dataset/train_combined_single.csv/
+# dataset/transactions_combined_single.csv/
+# dataset/user_logs_combined_single.csv/
+
+# 3. Abaikan folder data hasil (parquet)
+data/
+*.parquet
+
+# 4. Abaikan file data mentah yang SANGAT BESAR
+dataset/user_logs/user_logs.csv
+dataset/user_logs/user_logs_v2.csv
+dataset/transactions/transactions.csv
+dataset/transactions/transactions_v2.csv
+dataset/train/train.csv
+dataset/train/train_v2.csv
+dataset/members_v3.csv
+
+
+dataset.zip
+dataset/kkbox-churn-prediction-challenge.zip
