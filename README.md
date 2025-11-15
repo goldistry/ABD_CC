@@ -1,8 +1,3 @@
-Tentu, ini adalah ide yang sangat bagus. `README.md` Anda yang lama sudah tidak sesuai dengan alur kerja (workflow) dan struktur file (`src/`, `data/`, `.parquet`) yang telah kita rancang.
-
-Berikut adalah `README.md` baru yang telah saya perbarui untuk mencerminkan struktur proyek dan alur kerja tim Anda saat ini.
-
------
 
 # Proyek Analisis Prediktif Churn KKBox
 
@@ -10,7 +5,7 @@ Proyek ini bertujuan untuk menganalisis dan membangun model *machine learning* u
 
 -----
 
-## 📁 Struktur Proyek
+## Struktur Proyek
 
 Proyek ini diorganisir dengan memisahkan logika pemrosesan data (ETL/Fitur) dari notebook analisis (EDA/Laporan) untuk memudahkan kolaborasi tim di GitHub.
 
@@ -22,7 +17,7 @@ Proyek ini diorganisir dengan memisahkan logika pemrosesan data (ETL/Fitur) dari
 
 -----
 
-## 🚀 Alur Kerja & Cara Menjalankan
+## Alur Kerja & Cara Menjalankan
 
 Proyek ini memiliki alur kerja yang berurutan. **Jalankan notebook sesuai urutan ini.**
 
@@ -46,7 +41,7 @@ Proyek ini memiliki alur kerja yang berurutan. **Jalankan notebook sesuai urutan
 
 -----
 
-## ⚙️ Setup dan Instalasi
+## Setup dan Instalasi
 
 Untuk menjalankan proyek ini di komputer Anda, berikut langkah-langkah yang perlu Anda lakukan:
 
