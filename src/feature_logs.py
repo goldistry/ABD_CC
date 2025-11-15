@@ -1,18 +1,24 @@
 from pyspark.sql import functions as F
+from pyspark.sql.functions import col
 
-def aggregate_transactions(transactions_df):
+def aggregate_logs(user_logs_df):
     """
-    Menerima dataframe transactions_combined dan mengagregasinya 
-    per msno.
+    Mengagregasi data user logs per msno.
     """
+    print("Membuat fitur logs (ini mungkin butuh waktu)...")
     
-    transaction_features_df = transactions_df.groupBy("msno").agg(
-        F.count("*").alias("total_transactions"),
-        F.sum("payment_plan_days").alias("total_plan_days"),
-        F.avg(F.col("plan_list_price") - F.col("actual_amount_paid")).alias("avg_discount"),
-        F.sum(F.when(F.col("is_auto_renew") == 1, 1).otherwise(0)).alias("auto_renew_count"),
-        F.sum(F.when(F.col("is_cancel") == 1, 1).otherwise(0)).alias("cancel_count"),
-        F.max("transaction_date").alias("last_transaction_date"),
-        F.max("membership_expire_date").alias("last_expiry_date")
+    # Hitung total lagu untuk persentase
+    logs_with_total = user_logs_df.withColumn("total_songs_day", 
+        col("num_25") + col("num_50") + col("num_75") + col("num_985") + col("num_100")
     )
-    return transaction_features_df
+    
+    log_features = logs_with_total.groupBy("msno").agg(
+        F.avg("total_secs").alias("avg_daily_secs"),
+        F.countDistinct("date").alias("total_active_days"),
+        F.avg(col("num_100")).alias("avg_num_100"),
+        F.avg(col("num_25")).alias("avg_num_25"),
+        F.avg(F.when(col("total_songs_day") > 0, col("num_100") / col("total_songs_day"))
+             .otherwise(0)).alias("percent_songs_completed")
+    )
+    
+    return log_features
