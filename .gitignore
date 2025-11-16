@@ -1,3 +1,4 @@
+terus gitignore ni:
 # Kernel & Python
 *.pyc
 _pycache_/
@@ -19,12 +20,6 @@ env/
 dataset/train_combined.csv
 dataset/transactions_combined.csv
 dataset/user_logs_combined.csv
-
-
-# Punya Feli
-dataset/train_combined.csv/
-dataset/transactions_combined.csv/
-dataset/user_logs_combined/
 
 # 2. Abaikan folder hasil proses ETL dari (generate_file_combined.ipynb)
 # dataset/train_combined_single.csv/
@@ -48,3 +43,6 @@ dataset/user_logs_combined/user_logs_combined.csv
 
 dataset.zip
 dataset/kkbox-churn-prediction-challenge.zip
+
+# Abaikan folder data hasil (parquet)
+src/data/
