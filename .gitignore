@@ -39,6 +39,6 @@ dataset/train/train_v2.csv
 dataset/members_v3.csv
 dataset/user_logs_combined/user_logs_combined.csv
 
-
+data/
 dataset.zip
 dataset/kkbox-churn-prediction-challenge.zip
