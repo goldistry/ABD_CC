@@ -1,6 +1,6 @@
 # Kernel & Python
 *.pyc
-__pycache__/
+_pycache_/
 
 # VS Code (termasuk file checkpoint notebook)
 .vscode/
@@ -20,6 +20,7 @@ dataset/train_combined.csv
 dataset/transactions_combined.csv
 dataset/user_logs_combined.csv
 
+
 # Punya Feli
 dataset/train_combined.csv/
 dataset/transactions_combined.csv/
@@ -31,8 +32,8 @@ dataset/user_logs_combined/
 # dataset/user_logs_combined_single.csv/
 
 # 3. Abaikan folder data hasil (parquet)
-data/
-*.parquet
+# data/
+# *.parquet
 
 # 4. Abaikan file data mentah yang SANGAT BESAR
 dataset/user_logs/user_logs.csv
@@ -42,11 +43,8 @@ dataset/transactions/transactions_v2.csv
 dataset/train/train.csv
 dataset/train/train_v2.csv
 dataset/members_v3.csv
+dataset/user_logs_combined/user_logs_combined.csv
 
 
 dataset.zip
 dataset/kkbox-churn-prediction-challenge.zip
-
-# 6. Abaikan log error Java/Spark (PENTING!)
-*.log
-src/*.log
