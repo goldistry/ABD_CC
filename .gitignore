@@ -20,6 +20,11 @@ dataset/train_combined.csv
 dataset/transactions_combined.csv
 dataset/user_logs_combined.csv
 
+# Punya Feli
+dataset/train_combined.csv/
+dataset/transactions_combined.csv/
+dataset/user_logs_combined/
+
 # 2. Abaikan folder hasil proses ETL dari (generate_file_combined.ipynb)
 # dataset/train_combined_single.csv/
 # dataset/transactions_combined_single.csv/
@@ -41,3 +46,7 @@ dataset/members_v3.csv
 
 dataset.zip
 dataset/kkbox-churn-prediction-challenge.zip
+
+# 6. Abaikan log error Java/Spark (PENTING!)
+*.log
+src/*.log
