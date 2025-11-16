@@ -46,3 +46,4 @@ dataset/kkbox-churn-prediction-challenge.zip
 
 # Abaikan folder data hasil (parquet)
 src/data/
+dataset/ 
