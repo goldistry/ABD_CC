@@ -1,7 +1,6 @@
-terus gitignore ni:
 # Kernel & Python
 *.pyc
-_pycache_/
+__pycache__/
 
 # VS Code (termasuk file checkpoint notebook)
 .vscode/
@@ -17,6 +16,7 @@ env/
 # -------------------------------------------------------------------
 
 # 1. Abaikan file gabungan SPESIFIK yang besar
+dataset/ 
 dataset/train_combined.csv
 dataset/transactions_combined.csv
 dataset/user_logs_combined.csv
@@ -27,8 +27,7 @@ dataset/user_logs_combined.csv
 # dataset/user_logs_combined_single.csv/
 
 # 3. Abaikan folder data hasil (parquet)
-# data/
-# *.parquet
+src/data/
 
 # 4. Abaikan file data mentah yang SANGAT BESAR
 dataset/user_logs/user_logs.csv
@@ -44,6 +43,3 @@ dataset/user_logs_combined/user_logs_combined.csv
 dataset.zip
 dataset/kkbox-churn-prediction-challenge.zip
 
-# Abaikan folder data hasil (parquet)
-src/data/
-dataset/ 
