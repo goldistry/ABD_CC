@@ -27,13 +27,13 @@ def aggregate_demographics(members_df, reference_date_str="2017-03-31"):
     )
 
     # 3. Membuat fitur 'membership_duration'
-    reference_date = lit(reference_date_str).cast("date")
-    reg_date = to_date(col("registration_init_time").cast("string"), "yyyyMMdd")
+    # reference_date = lit(reference_date_str).cast("date")
+    # reg_date = to_date(col("registration_init_time").cast("string"), "yyyyMMdd")
     
-    processed_df = processed_df.withColumn(
-        "membership_duration_days",
-        datediff(reference_date, reg_date)
-    )
+    # processed_df = processed_df.withColumn(
+    #     "membership_duration_days",
+    #     datediff(reference_date, reg_date)
+    # )
     
     # 4. Pilih hanya kolom yang kita butuhkan untuk fitur
     demo_features = processed_df.select(
@@ -41,7 +41,7 @@ def aggregate_demographics(members_df, reference_date_str="2017-03-31"):
         "city",
         "age_group",
         "registered_via",
-        "membership_duration_days"
+        # "membership_duration_days"
     )
 
     print("Pre-processing demografi selesai.")
