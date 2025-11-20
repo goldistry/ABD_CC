@@ -89,7 +89,7 @@ def aggregate_logs(user_logs_df):
         "total_secs_last_90d",
         "active_days_last_90d",
         "activity_ratio_secs",
-        "percent_complete_last_30d",
+        "percent_complete_last_30d", 
         "lifetime_active_days",
         "lifetime_unq_songs"
     ]
