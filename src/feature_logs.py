@@ -62,12 +62,19 @@ def aggregate_logs(user_logs_df):
 
     # 8. Buat Fitur Tren (Rasio) & Persentase
     log_features = log_features.withColumn(
-        # Fitur Tren: (detik 30 hari terakhir) / (detik 90-30 hari lalu)
-        "activity_ratio_secs",
+    # Hitung Rata-rata per hari dulu agar konsepnya "Apple to Apple" baru nanti di kolom activity_ratio_secs dibandingkan rata-ratanya
+        "avg_daily_secs_last_30d", 
+        col("total_secs_last_30d") / 30
+    ).withColumn(
+        "avg_daily_secs_prev_60d", 
+        (col("total_secs_last_90d") - col("total_secs_last_30d")) / 60
+    ).withColumn(
+        # Fitur Tren: (rata-rata detik 30 hari terakhir) / (rata-rata detik 90-30 hari lalu)
+         "activity_ratio_secs",
         when(
-            (col("total_secs_last_90d") - col("total_secs_last_30d")) > 0.01, # Hindari pembagian dengan nol
-            col("total_secs_last_30d") / (col("total_secs_last_90d") - col("total_secs_last_30d"))
-        ).otherwise(1.0) # Jika tidak ada aktivitas 90-30d lalu, anggap rasio 1 (stabil)
+            col("avg_daily_secs_prev_60d") > 0.001, # Hindari bagi nol
+            col("avg_daily_secs_last_30d") / col("avg_daily_secs_prev_60d")
+        ).otherwise(1.0)
     ).withColumn(
         # Fitur Engagement Terbaru
         "percent_complete_last_30d",
@@ -76,6 +83,7 @@ def aggregate_logs(user_logs_df):
             col("total_complete_last_30d") / col("total_songs_last_30d")
         ).otherwise(0)
     )
+
 
     # 9. Final Cleanup
     # Pilih kolom akhir & isi NaN/NULL dengan 0 (SANGAT PENTING!)
