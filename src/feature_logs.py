@@ -99,7 +99,9 @@ def aggregate_logs(user_logs_df):
         "activity_ratio_secs",
         "percent_complete_last_30d",
         "lifetime_active_days",
-        "lifetime_unq_songs"
+        "lifetime_unq_songs",
+        "avg_daily_secs_last_30d",
+        "avg_daily_secs_last_60d",
     ]
     
     # Pastikan hanya kolom ini yang diekspor, dan isi NULL dengan 0
