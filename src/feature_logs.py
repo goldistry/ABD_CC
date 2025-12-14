@@ -2,13 +2,10 @@ from pyspark.sql import functions as F
 from pyspark.sql.functions import col, when
 
 def aggregate_logs(user_logs_df):
-    """
-    Mengagregasi data user logs per msno DENGAN FOKUS PADA RECENCY & TREN
-    (Versi baru menggantikan lifetime average)
-    """
-    print("Memulai agregasi logs (versi baru dengan Recency & Trend)...")
+   
+    print("Memulai agregasi logs")
     
-    # 1. Tentukan Tanggal Referensi (misal, 31 Maret 2017, akhir data train)
+    # 1. Tentukan Tanggal Referensi pakai akhir tgl akhir data train
     ref_date = F.to_date(F.lit('2017-03-31'))
     
     # 2. Ubah 'date' (int) menjadi 'log_date' (tipe data tanggal)
@@ -26,7 +23,6 @@ def aggregate_logs(user_logs_df):
     )
 
     # 4. Filter untuk jendela waktu (30 hari & 90 hari)
-    # Kita filter dulu *sebelum* groupBy untuk efisiensi
     df_last_30d = logs_with_date.filter(F.datediff(ref_date, col("log_date")) <= 30)
     df_last_90d = logs_with_date.filter(F.datediff(ref_date, col("log_date")) <= 90)
     
@@ -53,30 +49,14 @@ def aggregate_logs(user_logs_df):
         F.sum(col("num_unq")).alias("lifetime_unq_songs")
     )
 
-    # 7. Gabungkan (Join) semua fitur log menjadi satu tabel
-    # Kita mulai dengan 'recency_features' (karena sudah unik per msno)
+    # 7. Join semua fitur log menjadi satu tabel
     log_features = recency_features \
         .join(logs_last_30d, "msno", "left") \
         .join(logs_last_90d, "msno", "left") \
         .join(logs_lifetime, "msno", "left")
 
-    # 8. Buat Fitur Tren (Rasio) & Persentase
+    # 8. Buat Fitur Persentase
     log_features = log_features.withColumn(
-    # Hitung Rata-rata per hari dulu agar konsepnya "Apple to Apple" baru nanti di kolom activity_ratio_secs dibandingkan rata-ratanya
-        "avg_daily_secs_last_30d", 
-        col("total_secs_last_30d") / 30
-    ).withColumn(
-        "avg_daily_secs_prev_60d", 
-        (col("total_secs_last_90d") - col("total_secs_last_30d")) / 60
-    ).withColumn(
-        # Fitur Tren: (rata-rata detik 30 hari terakhir) / (rata-rata detik 90-30 hari lalu)
-         "activity_ratio_secs",
-        when(
-            col("avg_daily_secs_prev_60d") > 0.001, # Hindari bagi nol
-            col("avg_daily_secs_last_30d") / col("avg_daily_secs_prev_60d")
-        ).otherwise(1.0)
-    ).withColumn(
-        # Fitur Engagement Terbaru
         "percent_complete_last_30d",
         when(
             col("total_songs_last_30d") > 0,
@@ -86,8 +66,8 @@ def aggregate_logs(user_logs_df):
 
 
     # 9. Final Cleanup
-    # Pilih kolom akhir & isi NaN/NULL dengan 0 (SANGAT PENTING!)
-    # Pengguna yang tidak aktif 30/90 hari lalu akan menghasilkan NULL saat di-join.
+    # Pilih kolom akhir & isi NaN/NULL dengan 0 
+    # Pengguna yang tidak aktif 30/90 hari --> bakal NULL saat di-join.
     
     final_cols = [
         "msno",
@@ -96,16 +76,13 @@ def aggregate_logs(user_logs_df):
         "active_days_last_30d",
         "total_secs_last_90d",
         "active_days_last_90d",
-        "activity_ratio_secs",
-        "percent_complete_last_30d", 
+        "percent_complete_last_30d",
         "lifetime_active_days",
         "lifetime_unq_songs",
-        "avg_daily_secs_last_30d",
-        "avg_daily_secs_last_60d",
     ]
-    
-    # Pastikan hanya kolom ini yang diekspor, dan isi NULL dengan 0
+
+    # kolom yg bakal di export
     log_features = log_features.select(final_cols).fillna(0)
     
-    print("Agregasi logs (Recency & Trend) selesai.")
+    print("Agregasi logs selesai.")
     return log_features

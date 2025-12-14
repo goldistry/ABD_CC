@@ -27,8 +27,13 @@ dataset/user_logs_combined.csv
 # dataset/user_logs_combined_single.csv/
 
 # 3. Abaikan folder data hasil (parquet)
-data/
+src/data/
 *.parquet
+
+src/data_final/
+*.parquet
+
+src/data/demographic_features.parquet/.part-00002-ffa099d7-8a55-4676-be69-375c19ac6f1d-c000.snappy.parquet.crc
 
 # 4. Abaikan file data mentah yang SANGAT BESAR
 dataset/user_logs/user_logs.csv

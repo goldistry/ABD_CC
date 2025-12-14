@@ -1,13 +1,9 @@
 from pyspark.sql import functions as F
-from pyspark.sql.functions import col, to_date, lit, datediff, when
+from pyspark.sql.functions import col, when
 
-def aggregate_demographics(members_df, reference_date_str="2017-03-31"):
+def aggregate_demographics(members_df):
     """
     Membersihkan members_df dan membuat fitur age_group 
-    serta membership_duration.
-    
-    Input: DataFrame Spark 'members_df' (data mentah)
-    Output: DataFrame Spark 'demo_features' (siap gabung)
     """
     
     print("Memulai pre-processing demografi...")
@@ -25,26 +21,15 @@ def aggregate_demographics(members_df, reference_date_str="2017-03-31"):
         .when((col("bd") >= 46) & (col("bd") <= 90), "46-90 (Senior)")
         .otherwise("Unknown")  # untuk umur <= 0, > 90, atau null
     )
-
-    # 3. Membuat fitur 'membership_duration'
-    # reference_date = lit(reference_date_str).cast("date")
-    # reg_date = to_date(col("registration_init_time").cast("string"), "yyyyMMdd")
     
-    # processed_df = processed_df.withColumn(
-    #     "membership_duration_days",
-    #     datediff(reference_date, reg_date)
-    # )
-    
-    # 4. Pilih hanya kolom yang kita butuhkan untuk fitur
+    # 3. Pilih hanya kolom yang dibutuhkan untuk fitur
     demo_features = processed_df.select(
         "msno",
         "city",
         "age_group",
         "registered_via",
-        # "membership_duration_days"
     )
 
     print("Pre-processing demografi selesai.")
     
-    # Inilah jawaban atas pertanyaan "supaya bisa return"
     return demo_features
