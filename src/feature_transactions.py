@@ -11,13 +11,12 @@ def aggregate_transactions(transactions_df):
         .withColumn("actual_amount_paid", col("actual_amount_paid").cast("float"))
 
     transaction_features = trans_df_casted.groupBy("msno").agg(
-        F.count("*").alias("total_transactions"),
-        F.sum("payment_plan_days").alias("total_payment_plan_days"), 
-        F.avg(col("plan_list_price") - col("actual_amount_paid")).alias("avg_discount"), # rata-rata diskon per transaksi
-        F.sum(F.when(col("is_auto_renew") == 1, 1).otherwise(0)).alias("count_auto_renew"), # menghitung jumlah auto-renew
-        F.sum(F.when(col("is_cancel") == 1, 1).otherwise(0)).alias("count_cancel"), #jumlah pembatalan , kalau is_cancel =1
-        F.max("transaction_date").alias("last_transaction_date"),
-        F.max("membership_expire_date").alias("last_expiry_date")
+        F.count("payment_method_id").alias("total_transactions"),
+        F.sum("payment_plan_days").alias("total_plan_days"),
+        F.sum("actual_amount_paid").alias("total_amount_paid"),
+        F.avg("actual_amount_paid").alias("avg_amount_paid"),
+        F.sum("is_auto_renew").alias("count_auto_renew"),
+        F.sum("is_cancel").alias("count_cancel"),
+        F.mode("payment_method_id").alias("most_frequent_payment_method")
     )
-    
     return transaction_features
