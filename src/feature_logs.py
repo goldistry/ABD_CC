@@ -45,8 +45,7 @@ def aggregate_logs(user_logs_df):
 
     # 6. Agregasi Fitur "Lifetime" (Fitur lama yang mungkin masih berguna)
     logs_lifetime = logs_with_date.groupBy("msno").agg(
-        F.countDistinct("date").alias("lifetime_active_days"),
-        F.sum(col("num_unq")).alias("lifetime_unq_songs")
+        F.countDistinct("date").alias("lifetime_active_days")
     )
 
     # 7. Join semua fitur log menjadi satu tabel
@@ -78,7 +77,6 @@ def aggregate_logs(user_logs_df):
         "active_days_last_90d",
         "percent_complete_last_30d",
         "lifetime_active_days",
-        "lifetime_unq_songs",
     ]
 
     # kolom yg bakal di export
