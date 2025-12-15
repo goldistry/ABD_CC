@@ -16,6 +16,7 @@ env/
 # -------------------------------------------------------------------
 
 # 1. Abaikan file gabungan SPESIFIK yang besar
+dataset/
 dataset/train_combined.csv
 dataset/transactions_combined.csv
 dataset/user_logs_combined.csv
